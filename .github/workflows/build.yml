@@ -1,0 +1,29 @@
+name: Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Unit Tests
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      # build libraries
+      - name: Build libraries
+        run: |
+          npm run build --workspace=packages/bruno-graphql-docs
+          npm run build --workspace=packages/bruno-query
+          npm run build --workspace=packages/bruno-common
+
+      - run: build:web
+      - run: npm run build:electron
