@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Unit Tests
+    name: Build
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -25,5 +25,5 @@ jobs:
           npm run build --workspace=packages/bruno-query
           npm run build --workspace=packages/bruno-common
 
-      - run: build:web
+      - run: npm run build:web
       - run: npm run build:electron
